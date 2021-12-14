@@ -18,11 +18,11 @@ use App\Http\Controllers\WhislistController;
 |
 */
 
-//Route::get('/', function () {return view('welcome');});
+Route::get('/', function () {return view('welcome');});
 
 
 
-Route::get('/', [UserController::class, 'getAll']);
+Route::get('/users', [UserController::class, 'getAll']);
 Route::get('/users/{id}', [UserController::class, 'getById']);
 Route::post('/users', [UserController::class, 'add']);
 Route::patch('/users/{id}', [UserController::class, 'update']);
