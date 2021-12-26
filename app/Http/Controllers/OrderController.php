@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
+use App\Models\User;
+use App\Models\Cupon;
+use App\Models\Payment;
+use App\Models\Product;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -43,4 +48,38 @@ class OrderController extends Controller
         $order->delete();
         return json_encode($order);
     }
+
+    public function pdf($id){
+        // Change the line below to your timezone!
+        date_default_timezone_set('America/Lima');
+        $date = date('m_d_Y_h_i_s', time());
+
+        $order = Order::where('id' , '=' , $id)->first();
+        view()->share('order', $order);
+
+        $pdf = PDF::loadView('PDFs.order_pdf', $order);
+        return $pdf->download('BSC_Order_'.$date.'.pdf');
+    }
+
+    
+    public function preview_pdf($id){
+
+        $order = Order::where('id' , '=' , $id)->first();
+        $user = User::where('id' , '=' , $order->user_id)->first();
+        $payment = Payment::where('id' , '=' , $order->payment_id)->first();
+        $coupon = Cupon::where('id' , '=' , $order->coupon_id)->first();
+
+        $products = Product::hydrate((array)$order->products_json);
+        $collection = json_decode($order->products_json, true);
+        //$products = $products->flatten();
+
+        return view('PDFs.order_pdf', [
+            'invoice' => $order, 
+            'user' => $user,
+            'payment' => $payment,
+            'coupon' => $coupon,
+            'products' => $collection
+        ]);
+
+    } 
 }

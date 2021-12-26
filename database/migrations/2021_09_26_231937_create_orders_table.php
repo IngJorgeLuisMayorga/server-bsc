@@ -31,7 +31,7 @@ class CreateOrdersTable extends Migration
             $table->double('total');
 
             // 
-            // $table->double('no_guia');
+            $table->double('no_guia');
 
             // 3 CORREOS (AL CLIENTE)
             $table->date('ordered_at')->nullable(); // fecha de la compra

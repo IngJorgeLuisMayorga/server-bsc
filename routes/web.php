@@ -51,6 +51,9 @@ Route::post('/orders', [OrderController::class, 'add']);
 Route::patch('/orders/{id}', [OrderController::class, 'update']);
 Route::delete('/orders/{id}', [OrderController::class, 'remove']);
 
+Route::get('/orders/pdf/{id}', [OrderController::class, 'pdf']);
+Route::get('/orders/pdf/preview/{id}', [OrderController::class, 'preview_pdf']);
+
 
 Route::get('/wishlist', [WhislistController::class, 'getAll']);
 Route::get('/wishlist/{id}', [WhislistController::class, 'getById']);
