@@ -50,14 +50,33 @@ class OrderController extends Controller
     }
 
     public function pdf($id){
+
+        $order = Order::where('id' , '=' , $id)->first();
+        $user = User::where('id' , '=' , $order->user_id)->first();
+        $payment = Payment::where('id' , '=' , $order->payment_id)->first();
+        $coupon = Cupon::where('id' , '=' , $order->coupon_id)->first();
+
+        $products = Product::hydrate((array)$order->products_json);
+        $collection = json_decode($order->products_json, true);
+
         // Change the line below to your timezone!
         date_default_timezone_set('America/Lima');
         $date = date('m_d_Y_h_i_s', time());
 
         $order = Order::where('id' , '=' , $id)->first();
-        view()->share('order', $order);
+        view()->share('invoice', $order);
+        view()->share('user', $user);
+        view()->share('payment', $payment);
+        view()->share('coupon', $coupon);
+        view()->share('products', $collection);
 
-        $pdf = PDF::loadView('PDFs.order_pdf', $order);
+        $pdf = PDF::loadView('PDFs.order_pdf', [
+            'invoice' => $order, 
+            'user' => $user,
+            'payment' => $payment,
+            'coupon' => $coupon,
+            'products' => $collection
+        ]);
         return $pdf->download('BSC_Order_'.$date.'.pdf');
     }
 
