@@ -83,27 +83,44 @@
 
             <div style="page-break-after: always;">
 
-                <h4> {{ $user }} </h4>
-                <h4> {{ $payment }} </h4>
-                <h4> {{ $coupon }} </h4>
+                <h4>  Usuario </h4>
+                <ul> 
+                    <li>Id: {{ $user->id }} </li>
+                    <li>Name: {{ $user->name }}</li>
+                    <li>Email: {{ $user->email }}</li>
+                    <li>CC: {{ $user->nit_type }} {{ $user->nit_number}}</li>
+                    <li>Points: {{ $user->points }} </li>
+                    <li>Phone: {{ $user->phone }} </li>
+                    <li>City: {{ $user->city }} </li>
+                    <li>Address: {{ $user->address }} </li>
+                </ul>
 
                 <br>
 
-                <h4> ordered_at: {{ $invoice->ordered_at }} </h4>
-                <h4> shipped_at: {{ $invoice->shipped_at }} </h4>
-                <h4> delivered_at: {{ $invoice->delivered_at }} </h4>
+                <h4> Pago </h4>
+                <ul> 
+                    <li>Id:  {{ $payment->id }} </li>
+                    <li>Method:  {{ $payment->method }} </li>
+                    <li>Amount:  @money( $payment->amount ) </li>
+                </ul>
 
                 <br>
 
-                <h4> phone: {{ $invoice->phone }} </h4>
-                <h4> address: {{ $invoice->address }} </h4>
-                <h4> city: {{ $invoice->city }} </h4>
+                <h4> Status </h4>
+
+                <ul>
+                    <li> ordered_at: {{ $invoice->ordered_at }} </li>
+                    <li> shipped_at: {{ $invoice->shipped_at }}</li>
+                    <li> delivered_at: {{ $invoice->delivered_at }} </li>
+                </ul>
+
 
                 <br>
+                <br>
 
-                <h4> subtotal: {{ $invoice->subtotal }} </h4>
-                <h4> taxes: {{ $invoice->taxes }} </h4>
-                <h4> discounts: {{ $invoice->discounts }} </h4>
+                <h4> subtotal:  @money($invoice->subtotal) </h4>
+                <h4> taxes:   @money($invoice->taxes)  </h4>
+                <h4> discounts:   @money($invoice->discounts)  </h4>
                 <h4> points: {{ $invoice->points }} </h4>
 
                 <br>
@@ -130,6 +147,11 @@
                 @endforeach
 
             </p>
+
+            <br>
+            <br>
+            <br>
+            <br>
             
         </main>
 

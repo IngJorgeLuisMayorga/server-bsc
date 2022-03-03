@@ -7,79 +7,38 @@ use Illuminate\Http\Request;
 
 class CuponController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+  
+    public function getAll(Request $request) {
+        $cupons = Cupon::all();
+        return json_encode($cupons);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function getById(Request $request, $id) {
+        $cupon = Cupon::where('id' , '=' , $id)->first();
+        return json_encode($cupon);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function getByUserId(Request $request, $id) {
+        $cupons = Cupon::where('user_id' , '=' , $id)->get();
+        return json_encode($cupons);
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Cupon  $cupon
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Cupon $cupon)
-    {
-        //
+    public function getByIds(Request $request, $ids) {
+        $cupons = Cupon::whereIn('id', explode(',', $ids))->get();
+        return json_encode($cupons);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Cupon  $cupon
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Cupon $cupon)
-    {
-        //
+    public function add(Request $request) {
+        $cupon = new Cupon;
+        $data = $request->only($cupon->getFillable());
+        $cupon->fill($data);
+        $cupon->save();
+        return json_encode($cupon);
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Cupon  $cupon
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Cupon $cupon)
-    {
-        //
+    public function update(Request $request, $id) {
+        $cupon = Cupon::where('id' , '=' , $id)->first();
+        $data = $request->only($cupon->getFillable());
+        $cupon->fill($data);
+        $cupon->save();
+        return json_encode($cupon);
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Cupon  $cupon
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Cupon $cupon)
-    {
-        //
-    }
+    public function remove(Request $request, $id) {
+        $cupon = Cupon::where('id' , '=' , $id)->first();
+        $cupon->delete();
 }

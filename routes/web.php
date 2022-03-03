@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\WhislistController;
+use App\Http\Controllers\CuponController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,13 @@ Route::get('/users/{id}', [UserController::class, 'getById']);
 Route::post('/users', [UserController::class, 'add']);
 Route::patch('/users/{id}', [UserController::class, 'update']);
 Route::delete('/users/{id}', [UserController::class, 'remove']);
+
+
+Route::get('/coupons', [CuponController::class, 'getAll']);
+Route::get('/coupons/{id}', [CuponController::class, 'getById']);
+Route::post('/coupons', [CuponController::class, 'add']);
+Route::patch('/coupons/{id}', [CuponController::class, 'update']);
+Route::delete('/coupons/{id}', [CuponController::class, 'remove']);
 
 
 Route::get('/products', [ProductController::class, 'getAll']);
