@@ -42,6 +42,7 @@ Route::group(['middleware' => 'cors'], function(){
 Route::group(['middleware' => 'cors'], function(){
     Route::get('/products', [ProductController::class, 'getAll']);
     Route::get('/products/{id}', [ProductController::class, 'getById']);
+    Route::get('/products/recommended/{id}', [ProductController::class, 'getRecommended']);
     Route::post('/products', [ProductController::class, 'add']);
     Route::patch('/products/{id}', [ProductController::class, 'update']);
     Route::post('/products/upload/picture', [ProductController::class, 'uploadPicture']);
