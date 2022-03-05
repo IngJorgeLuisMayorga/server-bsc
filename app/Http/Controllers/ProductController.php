@@ -14,7 +14,7 @@ class ProductController extends Controller
         return json_encode($products);
     }
     public function getRecommended(Request $request) {
-        $products = Product::inRandomOrder()::with(['category_skin_id', 'category_main_ingredient_id', 'category_solution_id', 'category_step_id', 'category_extra_id'])->limit(5)->get();
+        $products = Product::with(['category_skin_id', 'category_main_ingredient_id', 'category_solution_id', 'category_step_id', 'category_extra_id'])->limit(5)->get();
         return json_encode($products);
     }
     public function getById(Request $request, $id) {
