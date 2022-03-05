@@ -22,11 +22,15 @@ class CreateCuponsTable extends Migration
             $table->string('code');
   
             $table->boolean('enable');
+            $table->boolean('free_shipping');
         
             $table->timestamp('from_date');
             $table->timestamp('to_date');
 
             $table->string('type');
+
+            $table->double('discount_percentage');
+            $table->double('discount_amount');
 
             $table->unsignedBigInteger('variable_give_product_A_id')->nullable();
             $table->unsignedBigInteger('variable_give_product_B_id')->nullable();
