@@ -41,4 +41,5 @@ class CuponController extends Controller
     public function remove(Request $request, $id) {
         $cupon = Cupon::where('id' , '=' , $id)->first();
         $cupon->delete();
+    }
 }
