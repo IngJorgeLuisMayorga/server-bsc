@@ -17,8 +17,7 @@ class ProductController extends Controller
         $products = Product::
         with(['category_skin_id', 'category_main_ingredient_id', 'category_solution_id', 'category_step_id', 'category_extra_id'])
         ->get()        
-        ->random(10)
-        ->limit(3);
+        ->random(3);
         
         return json_encode($products);
     }
