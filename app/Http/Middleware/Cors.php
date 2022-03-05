@@ -20,7 +20,7 @@ class Cors
         //Url a la que se le dará acceso en las peticiones
         ->header("Access-Control-Allow-Origin", "*")
         //Métodos que a los que se da acceso
-        ->header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE")
+        ->header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS")
         //Headers de la petición
         ->header("Access-Control-Allow-Kpop", "TWICE"); 
     }

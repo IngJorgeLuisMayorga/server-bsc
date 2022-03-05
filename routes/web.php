@@ -30,6 +30,7 @@ Route::group(['middleware' => 'cors'], function(){
     Route::delete('/users/{id}', [UserController::class, 'remove']);
 });
 
+
 Route::group(['middleware' => 'cors'], function(){
     Route::get('/coupons', [CuponController::class, 'getAll']);
     Route::get('/coupons/{id}', [CuponController::class, 'getById']);
