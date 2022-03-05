@@ -18,19 +18,19 @@ class CreateCuponsTable extends Migration
             $table->id();
             $table->timestamps();
             
-            $table->string('name');
-            $table->string('code');
+            $table->string('name')->nullable();
+            $table->string('code')->nullable();
   
-            $table->boolean('enable');
-            $table->boolean('free_shipping');
+            $table->boolean('enable')->nullable();
+            $table->boolean('free_shipping')->nullable();
         
-            $table->timestamp('from_date');
-            $table->timestamp('to_date');
+            $table->timestamp('from_date')->nullable();
+            $table->timestamp('to_date')->nullable();
 
-            $table->string('type');
+            $table->string('type')->nullable();
 
-            $table->double('discount_percentage');
-            $table->double('discount_amount');
+            $table->double('discount_percentage')->nullable();
+            $table->double('discount_amount')->nullable();
 
             $table->unsignedBigInteger('variable_give_product_A_id')->nullable();
             $table->unsignedBigInteger('variable_give_product_B_id')->nullable();
