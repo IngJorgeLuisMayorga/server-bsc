@@ -32,6 +32,8 @@ class CuponController extends Controller
         return json_encode($cupon);
     }
     public function update(Request $request, $id) {
+        error_log(' public function update(Request $request, $id) ');
+        error_log($request);
         $cupon = Cupon::where('id' , '=' , $id)->first();
         $data = $request->only($cupon->getFillable());
         $cupon->fill($data);

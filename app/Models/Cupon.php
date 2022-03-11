@@ -27,5 +27,8 @@ class Cupon extends Model
         'variable_by_first_N_orders_today_by_productId',
         'variable_by_2_products_same_brand_brand',
         'variable_by_2_products_same_brand_give_3rd_discount',
+        'variable_give_discount_amount',
+        'variable_give_free_shipping',
+        'variable_give_discount_percentage'
     ];
 }

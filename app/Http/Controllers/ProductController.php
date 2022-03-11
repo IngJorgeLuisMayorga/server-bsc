@@ -14,11 +14,13 @@ class ProductController extends Controller
         return json_encode($products);
     }
     public function getRecommended(Request $request) {
-        $products = Product::
-        with(['category_skin_id', 'category_main_ingredient_id', 'category_solution_id', 'category_step_id', 'category_extra_id'])
+        $id = $request->id;
+        $product = Product::where('id' , '=' , $id)->first();
+        $categoryStepId= Categories::where('id' , '=' , $product->category_step_id)->first();
+        $products = Product::where('category_step_id', '!=', $categoryStepId)
+        ->with(['category_skin_id', 'category_main_ingredient_id', 'category_solution_id', 'category_step_id', 'category_extra_id'])
         ->get()        
         ->random(3);
-        
         return json_encode($products);
     }
     public function getById(Request $request, $id) {
