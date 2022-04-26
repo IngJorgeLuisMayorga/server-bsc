@@ -237,7 +237,9 @@
     </tr>
 
     
-  <tr class="email--bottom pink">
+  <tr class="email--bottom pink" style="
+    background-image: url('{{ $HOST . '/images/emails/bsc_bg_bottom.png' }}');
+  ">
     <td colspan="3" style="height: 270px;">
         
         <br>
