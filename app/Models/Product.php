@@ -32,6 +32,7 @@ class Product extends Model
         'image2_src',
         'image3_src',
         'image4_src',
+        'visible'
     ];
 
     public function category_skin_id(){

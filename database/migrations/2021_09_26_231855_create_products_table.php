@@ -34,6 +34,7 @@ class CreateProductsTable extends Migration
             $table->double('discount');
             $table->integer('quantity');
 
+            $table->boolean('visible')->default(1);
             $table->boolean('isDuo')->default(0);
 
 

@@ -41,6 +41,7 @@ Route::group(['middleware' => 'cors'], function(){
 
 Route::group(['middleware' => 'cors'], function(){
     Route::get('/products', [ProductController::class, 'getAll']);
+    Route::get('/products/visible', [ProductController::class, 'getByAllVisible']);
     Route::get('/products/{id}', [ProductController::class, 'getById']);
     Route::get('/products/recommended/{id}', [ProductController::class, 'getRecommended']);
     Route::post('/products', [ProductController::class, 'add']);
@@ -55,6 +56,9 @@ Route::group(['middleware' => 'cors'], function(){
     Route::post('/categories', [CategoriesController::class, 'add']);
     Route::patch('/categories/{id}', [CategoriesController::class, 'update']);
     Route::delete('/categories/{id}', [CategoriesController::class, 'remove']);
+
+    Route::post('/categories/upload/picture', [CategoriesController::class, 'uploadPicture']);
+
 });
 
 Route::group(['middleware' => 'cors'], function(){
@@ -67,6 +71,10 @@ Route::group(['middleware' => 'cors'], function(){
 
     Route::get('/orders/pdf/{id}', [OrderController::class, 'pdf']);
     Route::get('/orders/pdf/preview/{id}', [OrderController::class, 'preview_pdf']);
+    
+    Route::get('/orders/email/send/{id}/{status}', [OrderController::class, 'send_email_order']);
+    Route::get('/orders/email/preview/{id}/{status}', [OrderController::class, 'preview_email_order']);
+
 });
 
 Route::group(['middleware' => 'cors'], function(){

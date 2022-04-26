@@ -9,7 +9,10 @@ use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
+
+use App\Mail\OrderEmail;
 
 class OrderController extends Controller
 {
@@ -34,13 +37,28 @@ class OrderController extends Controller
         $data = $request->only($order->getFillable());
         $order->fill($data);
         $order->save();
+
+        //$user = User::where('id' , '=' , $order->user_id)->first();
+        //$payment = Payment::where('id' , '=' , $order->payment_id)->first();
+        //$cupon = Cupon::where('id' , '=' , $order->coupon_id)->first();
+
+        // SEND EMAIL
+        $email = 'wallamejorge@hotmail.com';
+        Mail::to($email)->send(new OrderOrdered($order));
+
         return json_encode($order);
     }
     public function update(Request $request, $id) {
+
         $order = Order::where('id' , '=' , $id)->first();
         $data = $request->only($order->getFillable());
         $order->fill($data);
         $order->save();
+
+        // SEND EMAIL
+        $email = 'wallamejorge@hotmail.com';
+        Mail::to($email)->send(new OrderOrdered($order));
+
         return json_encode($order);
     }
     public function remove(Request $request, $id) {
@@ -48,7 +66,6 @@ class OrderController extends Controller
         $order->delete();
         return json_encode($order);
     }
-
     public function pdf($id){
 
         $order = Order::where('id' , '=' , $id)->first();
@@ -79,8 +96,6 @@ class OrderController extends Controller
         ]);
         return $pdf->download('BSC_Order_'.$date.'.pdf');
     }
-
-    
     public function preview_pdf($id){
 
         $order = Order::where('id' , '=' , $id)->first();
@@ -101,4 +116,35 @@ class OrderController extends Controller
         ]);
 
     } 
+    public function preview_email_order($id, $status){
+
+        $order = Order::where('id' , '=' , $id)->first();
+        $user = User::where('id' , '=' , $order->user_id)->first();  
+        $payment = Payment::where('id' , '=' , $order->payment_id)->first();
+        $coupon = Cupon::where('id' , '=' , $order->coupon_id)->first();
+        $products = Product::hydrate((array)json_decode($order->products_json, true));
+        $collection = json_decode($order->products_json, true);
+
+        return view('emails.order-email', [
+            'invoice' => $order, 
+            'user' => $user,
+            'payment' => $payment,
+            'coupon' => $coupon,
+            'products' => $products,
+            'status' => $status
+        ]);
+    }
+    public function send_email_order($id, $status){
+
+        $order = Order::where('id' , '=' , $id)->first();
+        $user = User::where('id' , '=' , $order->user_id)->first();  
+        $payment = Payment::where('id' , '=' , $order->payment_id)->first();
+        $coupon = Cupon::where('id' , '=' , $order->coupon_id)->first();
+        $products = Product::hydrate((array)json_decode($order->products_json, true));
+        $collection = json_decode($order->products_json, true);
+
+        $email = 'wallamejorge@hotmail.com';
+        Mail::to($email)->send(new OrderEmail($order, $user, $payment, $products, $status ));
+        return json_encode($order);
+    }
 }

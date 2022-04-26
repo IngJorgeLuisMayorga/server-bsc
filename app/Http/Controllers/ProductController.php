@@ -13,11 +13,22 @@ class ProductController extends Controller
         $products = Product::with(['category_skin_id', 'category_main_ingredient_id', 'category_solution_id', 'category_step_id', 'category_extra_id'])->get();
         return json_encode($products);
     }
+
+    public function getByAllVisible(Request $request) {
+        $products = Product::with(['category_skin_id', 'category_main_ingredient_id', 'category_solution_id', 'category_step_id', 'category_extra_id'])
+        ->where([ ['visible', '=', 1] ])
+        ->get();
+        return json_encode($products);
+    }
+
+
+    //^cY7OM@DNzW2
+
     public function getRecommended(Request $request) {
         $id = $request->id;
-        $product = Product::where('id' , '=' , $id)->first();
-        $categoryStepId= Categories::where('id' , '=' , $product->category_step_id)->first();
-        $products = Product::where('category_step_id', '!=', $categoryStepId)
+        $product = Product::where([ ['id', '=', $id], ['visible', '=', 1] ])->first();
+        //$categoryStepId= Categories::where('id' , '=' , $product->category_step_id)->first();
+        $products = Product::where('category_step_id', '!=', $product->category_step_id)
         ->with(['category_skin_id', 'category_main_ingredient_id', 'category_solution_id', 'category_step_id', 'category_extra_id'])
         ->get()        
         ->random(3);
@@ -25,7 +36,7 @@ class ProductController extends Controller
     }
     public function getById(Request $request, $id) {
 
-        $product = Product::where('id' , '=' , $id)->first();
+        $product = Product::where([ ['id', '=', $id]  ])->first();
         $categorySkinId = $product->category_skin_id;
         $categoryMainIngredientId = $product->category_main_ingredient_id;
         $categorySolutionId = $product->category_solution_id;
@@ -46,6 +57,31 @@ class ProductController extends Controller
 
         return json_encode($product);
     }
+
+    public function getByIdVisible(Request $request, $id) {
+
+        $product = Product::where([ ['id', '=', $id], ['visible', '=', 1] ])->first();
+        $categorySkinId = $product->category_skin_id;
+        $categoryMainIngredientId = $product->category_main_ingredient_id;
+        $categorySolutionId = $product->category_solution_id;
+        $categoryStepId = $product->category_step_id;
+        $categoryExtraId = $product->category_extra_id;
+
+        $categorySkin = Categories::where('id' , '=' , $categorySkinId)->first();
+        $categoryMainIngredient= Categories::where('id' , '=' , $categoryMainIngredientId)->first();
+        $categorySolution= Categories::where('id' , '=' , $categorySolutionId)->first();
+        $categoryStepId= Categories::where('id' , '=' , $categoryStepId)->first();
+        $categoryExtraId= Categories::where('id' , '=' , $categoryExtraId)->first();
+        
+        $product->category_skin = $categorySkin;
+        $product->category_main_ingredient = $categoryMainIngredient;
+        $product->category_solution = $categorySolution;
+        $product->category_step = $categoryStepId;
+        $product->category_extra = $categoryExtraId;
+
+        return json_encode($product);
+    }
+    
     public function getByIds(Request $request, $ids) {
         $products = Product::whereIn('id', explode(',', $ids))->get();
         return json_encode($products);

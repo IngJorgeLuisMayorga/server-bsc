@@ -1,10 +1,23 @@
-1.) Arreglar Bug de Cupones
-2.) Formulario de Categorias 
-3.) Template de Emails conla cuenta de FundSoliun de prueba
 4.) Go To Home en (Header y Footer)
-5.) En los breadcrumbs de products/1, habilitar los links de navegación
 6.) En shipping, admin agregar que empresa transportadora es "Envia", "Coordinadora", etc
+7.) Añadir switch para ocultar producto.
 
+
+==== MIERCOLES Entrego 5:00pm
+5.) En los breadcrumbs de products/1, habilitar los links de navegación
+8.) Limpiar db y dejar solo 15
+Cupones:  
+    1. Envio gratis sin minimo de compra.
+    2. Compras mayores a 300k envio gratis
+
+3.) Template de Emails conla cuenta de FundSoliun de prueba
+====
+
+
+=== 
+9.) Añadir pasarela de pago ******
+===
+.
 
 Diseños :
 1.) Diseño de la factura en PDF

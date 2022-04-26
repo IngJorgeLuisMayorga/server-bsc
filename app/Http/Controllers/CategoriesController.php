@@ -39,4 +39,44 @@ class CategoriesController extends Controller
         $category->delete();
         return json_encode($category);
     }
+
+
+    public function uploadPicture(Request $request) {
+
+        if($request->hasFile('picture_normal')){
+            $this->validate($request, [
+                'picture_normal' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            ]);
+        }
+        if($request->hasFile('picture_hover')){
+            $this->validate($request, [
+                'picture_hover' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            ]);
+        }
+
+        $out = [
+            'picture_normal' => '',
+            'picture_hover' => '',
+        ];
+
+        if ($request->hasFile('picture_normal')) {
+            $image = $request->file('picture_normal');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path('/images');
+            $image->move($destinationPath, $name);
+            $out['picture_normal'] = $name;
+        } 
+        
+        if ($request->hasFile('picture_hover'))  {
+            $image = $request->file('picture_hover');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path('/images');
+            $image->move($destinationPath, $name);
+            $out['picture_hover'] = $name;
+        } 
+        
+
+        return json_encode($out);
+        
+    }
 }
