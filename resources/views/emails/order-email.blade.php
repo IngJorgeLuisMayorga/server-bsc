@@ -1,32 +1,197 @@
 <?php
     $HOST = 'http://ec2-3-131-94-227.us-east-2.compute.amazonaws.com/server-bsc/public';
 ?>
-<table class="email" cellspacing="0">
 
-  <tr class="email--header pink">
+<!-- Style::Table -->
+<style>
+    .email--top{}
+    .email--top .box{
+        max-width: 300px;
+        padding: 0px;
+    }
+    .email--top h1{
+        font-weight: bold;
+        font-size: 24px;
+        margin: 0 auto;
+        padding: 8px 0px;
+        width: fit-content;
+    }
+    .email--top h2{
+        font-weight: normal;
+        font-size: 18px;
+        margin: 0 auto;
+        padding: 8px 0px;
+        width: fit-content;
+    }
+</style>
+
+<!-- Style::Header -->
+<style>
+    
+    .email{
+        width: 100%;
+        max-width: 500px;
+        margin:0px auto;
+        padding:0px;
+        color: #333333;
+    }
+    
+    .email--header{
+
+    }
+    .email--header h1{
+        display:block;
+        width: 100%;
+        margin:0px;
+        padding:16px 8px;
+        text-align: center;
+
+        font-size: 72px;
+    }
+    .email--header img{
+        display:block;
+        width: 100%;
+        max-width: 150px;
+        margin:0px auto;
+        padding:0px;
+        padding-bottom: 16px;
+    }
+
+</style>
+<!-- Style::Fonts -->
+<style>
+    /**
+    // Fonts
+    */   
+    @font-face {
+            font-family: 'Roboto';
+            src: url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+    } 
+    .email{
+        width: 100%;
+        max-width: 600px;
+        margin:0 auto;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    h1,h2 {
+        display:block;
+        width: 100%;
+        margin:0px;
+        padding:8px 8px;
+        text-align: center;
+        font-size: 48px;
+    }
+    
+</style>
+
+
+
+<!-- Style::Box -->
+<style>
+    .box{
+        display: block;
+        width: 100%;
+        max-width: 200px;
+        margin: 0 auto;
+        border: 1px solid #333333;
+    }
+    .box-pink{
+        background-color: #F7C0CD;
+    }
+    .box-yellow{
+        background-color: #FFF6C2;
+    }
+    .box-blue{
+        background-color: #C1E9F4;
+    }
+</style>
+
+
+
+
+<table class="email" cellspacing="0" style="
+    width: 100%;
+    max-width: 600px;
+    margin:0 auto;
+    font-family: 'Roboto', sans-serif;
+">
+
+<tr class="email--header pink">
     <td colspan="3">
-        <h1> Holaaa </h1>
-        <img src="{{ $HOST . '/images/emails/bsc_subline.png' }}">
+        <h1 style="
+            display:block;
+            width: 100%;
+            margin:0px;
+            padding:16px 8px;
+            text-align: center;
+            font-size: 72px;
+        "> Holaaa </h1>
+        <img src="{{ $HOST . '/images/emails/bsc_subline.png' }}" style="display: block; margin: 0 auto">
     </td>
   </tr>
 
-  <tr class="email--top pink">
+  <tr class="email--top pink" style="
+    width:400px;
+    background-size: 100% auto;
+    background-image: url('{{ $HOST . '/images/emails/bsc_bg_top.png' }}');">
     <td colspan="3">
 
             @if ($status === 'ORDERED')
-                <div class="box box-pink">
-                <h1>¡Gracias por tu compra</h1>
-                <h2>{{ $user->name }}!</h2>
+                <div class="box box-pink" style="
+                        display: block;
+                        width: 100%;
+                        max-width: 200px;
+                        margin: 0 auto;
+                        border: 1px solid #333333;
+                        background-color: #F7C0CD;
+                ">
+                <h1 style="font-weight: bold;
+                font-size: 24px;
+                margin: 0 auto;
+                padding: 8px 0px;
+                width: fit-content;
+                text-align: center;">¡Gracias por tu compra</h1>
+                <h2 style="text-align: center">{{ $user->name }}!</h2>
                 </div>
             @elseif ($status === 'SHIPPED')
-                <div class="box box-yellow">
-                <h1>¡Tu pedido ha sido enviado</h1>
-                <h2>{{ $user->name }}!</h2>
+                <div class="box box-yellow" style="
+                    display: block;
+                    width: 100%;
+                    max-width: 200px;
+                    margin: 0 auto;
+                    border: 1px solid #333333;
+                    background-color: #FFF6C2;
+                ">
+                <h1 style="font-weight: bold;
+                font-size: 24px;
+                margin: 0 auto;
+                padding: 8px 0px;
+                width: fit-content;
+                text-align: center;">¡Tu pedido ha sido enviado</h1>
+                <h2 style="text-align: center">{{ $user->name }}!</h2>
                 </div>
             @elseif ($status === 'DELIVERED')
-                <div class="box box-blue">
-                <h1>¡Tu pedido ha sido entregado</h1>
-                <h2>{{ $user->name }}!</h2>
+                <div class="box box-blue" style="
+                    display: block;
+                    width: 100%;
+                    max-width: 200px;
+                    margin: 0 auto;
+                    border: 1px solid #333333;
+                    background-color: #C1E9F4;
+                ">
+                <h1 style="font-weight: bold;
+                font-size: 24px;
+                margin: 0 auto;
+                padding: 8px 0px;
+                width: fit-content;
+                text-align: center;">¡Tu pedido ha sido entregado</h1>
+                <h2 style="font-weight: bold;
+                font-size: 22px;
+                margin: 0 auto;
+                padding: 8px 0px;
+                width: fit-content;
+                text-align: center;">{{ $user->name }}!</h2>
                 </div>
             @else
                 
@@ -36,7 +201,10 @@
     </td>
   </tr>
 
-  <tr class="email--middle pink" style="width:400px">
+  <tr class="email--middle pink" style="width:400px;
+     background-size: 100% auto;
+  background-image: url('{{ $HOST . '/images/emails/bsc_bg_middle.png' }}');
+">
     <td colspan="3" style="width: 100%;padding: 20px 60px;">
         
         <h5 class="label--ref"># {{ 18032 + $invoice->id}}</h5>
@@ -78,7 +246,7 @@
             @foreach ($products as $item)
          
                 <tr style="padding-top: 50px;">
-                    <td colspan="1" style="vertical-align: top ;     position: relative;">
+                    <td colspan="1" style="vertical-align: top; position: relative;">
                         <img  src="{{$item->image1_src}}" style="width: 120px; heigth:120px;">
                         @if ($item->discount > 0)
                             <span style="
@@ -186,7 +354,7 @@
     </td>
   </tr>
 
-  <tr class="email--middle pink" style="width:400px">
+  <tr class="email--middle pink" style="width:400px;   background-size: 100% auto; background-image: url('{{ $HOST . '/images/emails/bsc_bg_middle.png' }}');">
     <td colspan="3" style="width: 100%;padding: 20px 60px;">
         <div style="border:1px dotted black" >
             <h1 style="
@@ -199,7 +367,11 @@
     </td>
   </tr>
 
-    <tr class="email--middle pink" style="width:400px">
+    <tr class="email--middle pink" style="
+        width:400px;
+        background-size: 100% auto;
+        background-image: url('{{ $HOST . '/images/emails/bsc_bg_middle.png' }}');
+    ">
         <td colspan="3" style="width: 100%;padding: 20px 60px;">
             <ul style="list-style-type: none; padding: 0; margin: 0; padding-left: 0.5em;">
                  <br>
@@ -238,6 +410,7 @@
 
     
   <tr class="email--bottom pink" style="
+      background-size: 100%;
     background-image: url('{{ $HOST . '/images/emails/bsc_bg_bottom.png' }}');
   ">
     <td colspan="3" style="height: 270px;">
@@ -447,107 +620,3 @@ margin: 0 auto;">
     }
 </style>
 
-
-<!-- Style::Table -->
-<style>
-    .email--top{}
-    .email--top .box{
-        max-width: 300px;
-        padding: 0px;
-    }
-    .email--top h1{
-        font-weight: bold;
-        font-size: 24px;
-        margin: 0 auto;
-        padding: 8px 0px;
-        width: fit-content;
-    }
-    .email--top h2{
-        font-weight: normal;
-        font-size: 18px;
-        margin: 0 auto;
-        padding: 8px 0px;
-        width: fit-content;
-    }
-</style>
-
-<!-- Style::Header -->
-<style>
-    
-    .email{
-        width: 100%;
-        max-width: 500px;
-        margin:0px auto;
-        padding:0px;
-        color: #333333;
-    }
-    
-    .email--header{
-
-    }
-    .email--header h1{
-        display:block;
-        width: 100%;
-        margin:0px;
-        padding:16px 8px;
-        text-align: center;
-
-        font-size: 72px;
-    }
-    .email--header img{
-        display:block;
-        width: 100%;
-        max-width: 150px;
-        margin:0px auto;
-        padding:0px;
-        padding-bottom: 16px;
-    }
-
-</style>
-
-<!-- Style::Box -->
-<style>
-    .box{
-        display: block;
-        width: 100%;
-        max-width: 200px;
-        margin: 0 auto;
-        border: 1px solid #333333;
-    }
-    .box-pink{
-        background-color: #F7C0CD;
-    }
-    .box-yellow{
-        background-color: #FFF6C2;
-    }
-    .box-blue{
-        background-color: #C1E9F4;
-    }
-</style>
-
-<!-- Style::Fonts -->
-<style>
-    /**
-    // Fonts
-    */   
-    @font-face {
-            font-family: 'Roboto';
-            src: url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
-    } 
-    .email{
-        width: 100%;
-        max-width: 600px;
-        margin:0 auto;
-        font-family: 'Roboto', sans-serif;
-    }
-
-    h1,h2 {
-        display:block;
-        width: 100%;
-        margin:0px;
-        padding:8px 8px;
-        text-align: center;
-        font-size: 48px;
-    }
-    
-</style>

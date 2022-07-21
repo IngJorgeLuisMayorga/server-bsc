@@ -50,14 +50,25 @@ class OrderController extends Controller
     }
     public function update(Request $request, $id) {
 
+        $status = $request->status;
+
         $order = Order::where('id' , '=' , $id)->first();
         $data = $request->only($order->getFillable());
         $order->fill($data);
         $order->save();
 
-        // SEND EMAIL
-        $email = 'wallamejorge@hotmail.com';
-        Mail::to($email)->send(new OrderOrdered($order));
+        $user = User::where('id' , '=' , $order->user_id)->first();  
+        $payment = Payment::where('id' , '=' , $order->payment_id)->first();
+        $coupon = Cupon::where('id' , '=' , $order->coupon_id)->first();
+        $products = Product::hydrate((array)json_decode($order->products_json, true));
+        $collection = json_decode($order->products_json, true);
+
+        //$email = 'wallamejorge@hotmail.com';
+        //$email = 'malejandramayorga@gmail.com'; //$user->email;
+        $email = 'jl.mayorga236@gmail.com'; //$user->email;
+
+        Mail::to($email)->send(new OrderEmail($order, $user, $payment, $products, $status ));
+        return json_encode($order);
 
         return json_encode($order);
     }
@@ -144,6 +155,9 @@ class OrderController extends Controller
         $collection = json_decode($order->products_json, true);
 
         $email = 'wallamejorge@hotmail.com';
+        //$email = 'malejandramayorga@gmail.com'; //$user->email;
+        //$email = 'jl.mayorga.co@gmail.com'; //$user->email;
+
         Mail::to($email)->send(new OrderEmail($order, $user, $payment, $products, $status ));
         return json_encode($order);
     }

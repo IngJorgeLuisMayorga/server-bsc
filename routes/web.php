@@ -28,6 +28,9 @@ Route::group(['middleware' => 'cors'], function(){
     Route::post('/users', [UserController::class, 'add']);
     Route::patch('/users/{id}', [UserController::class, 'update']);
     Route::delete('/users/{id}', [UserController::class, 'remove']);
+
+    Route::post('/users/auth/signin', [UserController::class, 'signin']);
+    Route::post('/users/auth/signup', [UserController::class, 'add']);
 });
 
 

@@ -34,6 +34,7 @@ class UserController extends Controller {
         $data = $request->only($user->getFillable());
         $user->fill($data);
         $user->fill([
+            'password' => Hash::make($request->password),
             'birthdate' =>  Carbon::parse($request->birthdate),
             'signin_at' =>  Carbon::parse($request->signin_at)
         ])->update();
@@ -51,6 +52,29 @@ class UserController extends Controller {
         $user = User::where('id' , '=' , $id)->first();
         $user->delete();
         return json_encode($user);
+    }
+
+    public function signin(Request $request) {
+        $email = $request->input('email');
+        $password = $request->input('password');
+
+        error_log(' ');
+        error_log('signUpByEmail ====> parswowrd  email');
+        error_log('$email');
+        error_log($email);
+        error_log('');
+        error_log(' ');
+        error_log('$password');
+        error_log($password);
+        error_log('');
+
+        
+        if (Auth::attempt(['email'=>$email,'password'=>$password])) {
+            $user = User::where('email', $email)->first();
+            return json_encode($user);
+        } else {
+            abort(404);
+        }
     }
 
 }
