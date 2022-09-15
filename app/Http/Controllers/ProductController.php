@@ -31,7 +31,7 @@ class ProductController extends Controller
         $products = Product::where('category_step_id', '!=', $product->category_step_id)
         ->with(['category_skin_id', 'category_main_ingredient_id', 'category_solution_id', 'category_step_id', 'category_extra_id'])
         ->get()        
-        ->random(3);
+        ->random(8);
         return json_encode($products);
     }
     public function getById(Request $request, $id) {

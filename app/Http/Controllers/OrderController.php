@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use PDF;
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Cupon;
 use App\Models\Payment;
@@ -33,42 +34,95 @@ class OrderController extends Controller
         return json_encode($orders);
     }
     public function add(Request $request) {
+
         $order = new Order;
         $data = $request->only($order->getFillable());
         $order->fill($data);
         $order->save();
 
-        //$user = User::where('id' , '=' , $order->user_id)->first();
-        //$payment = Payment::where('id' , '=' , $order->payment_id)->first();
-        //$cupon = Cupon::where('id' , '=' , $order->coupon_id)->first();
-
-        // SEND EMAIL
-        $email = 'wallamejorge@hotmail.com';
-        Mail::to($email)->send(new OrderOrdered($order));
+        $products = json_decode($request->order_products_json, true);
+        foreach($products as $product) {
+            $product_id = $product['id'];
+            $order_id = $order->id;
+            DB::table('order_products')->insert([
+                'order_id' => $order_id,
+                'product_id' => $product_id,
+                'updated_at' =>  date("Y-m-d H:i:s"),
+                'created_at' =>  date("Y-m-d H:i:s"),
+            ]);
+        }
 
         return json_encode($order);
     }
     public function update(Request $request, $id) {
 
-        $status = $request->status;
-
         $order = Order::where('id' , '=' , $id)->first();
         $data = $request->only($order->getFillable());
         $order->fill($data);
-        $order->save();
 
+        // S1_ORDERED (ACCEPTED PAYMENT)
+        if($request->shipping_status === 's1_ordered'){
+            //Add Payment
+            $payment = new Payment;
+            $payment->fill([
+                'method' => $request->paymentMethodType,
+                'reference' => $order->order_ref,
+                'amount' => $order->order_total,
+                'wompi_amount_in_cents' => $request->amountInCents,
+                'wompi_currency'  => $request->currency,
+                'wompi_method'  => $request->paymentMethodType,
+                'wompi_id'  => $request->id,
+                'user_id' => $order->user_id,
+            ]);
+            $payment->save();
+
+            //Update Shipping Status
+            $order->fill([
+                'payment_approved_at'=> Carbon::now(),
+                'payment_id'=> $payment->id,
+                'payment_method'=> $payment->method,
+                'payment_wompi_id'=> $payment->wompi_id,
+                'shipping_status' => $request->shipping_status,
+                'shipping_ordered_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ])->update();
+            $order->save();
+        } 
+
+        // S2_SHIPPED (SHIPPED TO USER)
+        if($request->shipping_status === 's2_shipped'){
+            //Update Shipping Status
+            $order->fill([
+                'shipping_guide_ref' => $request->shipping_guide_ref,
+                'shipping_guide_company' => $request->shipping_guide_company, 
+                'shipping_status' => $request->shipping_status,
+                'shipping_shipped_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ])->update();
+            $order->save();
+        }
+        
+        // S3_DELIVERED (IN USER HANDS)
+        if($request->shipping_status === 's3_delivered'){
+            //Update Shipping Status
+            $order->fill([
+                'shipping_status' => $request->shipping_status,
+                'shipping_delivered_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ])->update();
+            $order->save();
+        } 
+
+        // Get User,Products, Payment and Cupon
+        $order = Order::where('id' , '=' , $id)->first();
         $user = User::where('id' , '=' , $order->user_id)->first();  
-        $payment = Payment::where('id' , '=' , $order->payment_id)->first();
         $coupon = Cupon::where('id' , '=' , $order->coupon_id)->first();
-        $products = Product::hydrate((array)json_decode($order->products_json, true));
-        $collection = json_decode($order->products_json, true);
-
-        //$email = 'wallamejorge@hotmail.com';
-        //$email = 'malejandramayorga@gmail.com'; //$user->email;
-        $email = 'jl.mayorga236@gmail.com'; //$user->email;
-
-        Mail::to($email)->send(new OrderEmail($order, $user, $payment, $products, $status ));
-        return json_encode($order);
+        $productsIds = DB::table('order_products')->where('order_id', '=', $order->id)->pluck('product_id')->toArray();
+        $products = Product::whereIn('id', $productsIds)->get();
+ 
+        //Send Email 
+        $email = $order->user_email;
+        Mail::to($email)->send(new OrderEmail($order, $user, $products, $order->shipping_status ));
 
         return json_encode($order);
     }
@@ -133,32 +187,29 @@ class OrderController extends Controller
         $user = User::where('id' , '=' , $order->user_id)->first();  
         $payment = Payment::where('id' , '=' , $order->payment_id)->first();
         $coupon = Cupon::where('id' , '=' , $order->coupon_id)->first();
-        $products = Product::hydrate((array)json_decode($order->products_json, true));
-        $collection = json_decode($order->products_json, true);
-
+        $productsIds = DB::table('order_products')->where('order_id', '=', $order->id)->pluck('product_id')->toArray();
+        $products = Product::whereIn('id', $productsIds)->get();
+      
         return view('emails.order-email', [
-            'invoice' => $order, 
+            'order' => $order, 
             'user' => $user,
             'payment' => $payment,
             'coupon' => $coupon,
             'products' => $products,
             'status' => $status
         ]);
+        
+        //return json_encode($order->user_id);
     }
     public function send_email_order($id, $status){
 
         $order = Order::where('id' , '=' , $id)->first();
         $user = User::where('id' , '=' , $order->user_id)->first();  
-        $payment = Payment::where('id' , '=' , $order->payment_id)->first();
         $coupon = Cupon::where('id' , '=' , $order->coupon_id)->first();
-        $products = Product::hydrate((array)json_decode($order->products_json, true));
-        $collection = json_decode($order->products_json, true);
-
-        $email = 'wallamejorge@hotmail.com';
-        //$email = 'malejandramayorga@gmail.com'; //$user->email;
-        //$email = 'jl.mayorga.co@gmail.com'; //$user->email;
-
-        Mail::to($email)->send(new OrderEmail($order, $user, $payment, $products, $status ));
-        return json_encode($order);
+        $productsIds = DB::table('order_products')->where('order_id', '=', $order->id)->pluck('product_id')->toArray();
+        $products = Product::whereIn('id', $productsIds)->get();
+        $email = $order->user_email;
+        Mail::to($email)->send(new OrderEmail($order, $user, $products, $status ));
+        return json_encode($products);
     }
 }

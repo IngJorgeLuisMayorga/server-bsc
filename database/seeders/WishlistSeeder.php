@@ -14,7 +14,7 @@ class WishlistSeeder extends Seeder
     public function run()
     {
         error_log('[SEEDING] ... Start ');
-            Whislist::factory()->count(200)->create();
+            Whislist::factory()->count(20)->create();
         error_log('[SEEDING] [USERS] -> DONE ');
     }
 }

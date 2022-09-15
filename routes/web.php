@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\WhislistController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CuponController;
 
 /*
@@ -46,6 +47,7 @@ Route::group(['middleware' => 'cors'], function(){
     Route::get('/products', [ProductController::class, 'getAll']);
     Route::get('/products/visible', [ProductController::class, 'getByAllVisible']);
     Route::get('/products/{id}', [ProductController::class, 'getById']);
+    Route::get('/products/by/ids/{ids}', [ProductController::class, 'getByIds']);
     Route::get('/products/recommended/{id}', [ProductController::class, 'getRecommended']);
     Route::post('/products', [ProductController::class, 'add']);
     Route::patch('/products/{id}', [ProductController::class, 'update']);
@@ -87,5 +89,14 @@ Route::group(['middleware' => 'cors'], function(){
     Route::post('/wishlist', [WhislistController::class, 'add']);
     Route::patch('/wishlist/{id}', [WhislistController::class, 'update']);
     Route::delete('/wishlist/{id}', [WhislistController::class, 'remove']);
+});
+
+Route::group(['middleware' => 'cors'], function(){
+    Route::get('/payments', [PaymentController::class, 'getAll']);
+    Route::get('/payments/{id}', [PaymentController::class, 'getById']);
+    Route::get('/payments/by/user/{id}', [PaymentController::class, 'getByUserId']);
+    Route::post('/payment', [PaymentController::class, 'add']);
+    Route::patch('/payment/{id}', [PaymentController::class, 'update']);
+    Route::delete('/payment/{id}', [PaymentController::class, 'remove']);
 });
 

@@ -14,6 +14,7 @@ class CreatePaymentsTable extends Migration
     public function up()
     {
         Schema::create('payments', function (Blueprint $table) {
+            
             $table->id();
             $table->timestamps();
 
@@ -21,8 +22,14 @@ class CreatePaymentsTable extends Migration
             $table->string('reference');
             $table->double('amount');
 
+            $table->double('wompi_amount_in_cents')->nullable();
+            $table->string('wompi_currency')->nullable();
+            $table->string('wompi_method')->nullable();
+            $table->string('wompi_id')->nullable();
+
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            
         });
     }
 

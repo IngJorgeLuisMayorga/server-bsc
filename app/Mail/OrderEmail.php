@@ -29,11 +29,10 @@ class OrderEmail extends Mailable
      *
      * @return void
      */
-    public function __construct(Order $order, User $user, Payment $payment, $products, string $status )
+    public function __construct(Order $order, User $user, $products, string $status )
     {
         $this->order = $order;
         $this->user = $user;
-        $this->payment = $payment;
         $this->products = $products;
         $this->status = $status;
     }
@@ -49,9 +48,8 @@ class OrderEmail extends Mailable
         ->from('soporte@funsoliun.com')
         ->view('emails.order-email')
         ->with([
-            'invoice' => $this->order, 
+            'order' => $this->order, 
             'user' => $this->user,
-            'payment' => $this->payment,
             'products' => $this->products,
             'status' => $this->status
         ]);

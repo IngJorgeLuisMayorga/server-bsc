@@ -15,7 +15,7 @@ class OrdersSeeder extends Seeder
     public function run()
     {
         error_log('[SEEDING] [ORDER] -> Start ');
-            Order::factory()->count(200)->create();
+           Order::factory()->count(10)->create();
         error_log('[SEEDING] [ORDER] -> DONE ');
     }
 }

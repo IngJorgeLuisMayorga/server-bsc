@@ -15,14 +15,6 @@ class UpdateOrdersForeignkeys extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
 
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
-            $table->unsignedBigInteger('payment_id')->nullable();
-            $table->foreign('payment_id')->references('id')->on('payments')->onDelete('cascade');
-
-            $table->unsignedBigInteger('coupon_id')->nullable();
-            $table->foreign('coupon_id')->references('id')->on('cupons')->onDelete('cascade');
 
         });
     }
@@ -34,8 +26,6 @@ class UpdateOrdersForeignkeys extends Migration
      */
     public function down()
     {
-        Schema::table('orders', function (Blueprint $table) {
-
-        });
+       
     }
 }

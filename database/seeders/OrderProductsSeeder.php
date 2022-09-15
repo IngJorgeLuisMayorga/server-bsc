@@ -26,7 +26,7 @@ class OrderProductsSeeder extends Seeder
 
             // Create Order Product Relationship
             $order_id = $order->id;
-            $products = json_decode($order->products_json);
+            $products = json_decode($order->order_products_json);
             error_log('  $order_id  => '.$order_id);
             error_log('  $products size  => '.count($products));
 

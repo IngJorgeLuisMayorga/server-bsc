@@ -44,6 +44,8 @@ class OrderFactory extends Factory
         $taxes = 0;
         $points = 0;
 
+        $reference = hexdec(md5('PAYMENT'.$this->faker->numberBetween(100000, 1000000).$products->toJson().date("Y-m-d H:i:s")));
+
         // Calculate payments and ta
         foreach ($products as $product) {
             $price_product = ($product->price)*(1 - (0.01*$product->discount));
@@ -54,43 +56,59 @@ class OrderFactory extends Factory
             $subtotal = $total - $taxes ;
         }
 
+ 
+        // Update Points
         $user->points = $user->points + $points;
         $user->save();
 
         // Create Payment
-        $payment_reference = hexdec(md5('PAYMENT'.$this->faker->numberBetween(100000, 1000000).$products->toJson().date("Y-m-d H:i:s")));
         DB::table('payments')->insert([
             'method' => 'CREDIT_CARD_PAYU',
-            'reference' => $payment_reference,
+            'reference' => $reference,
             'amount' => $total,
             'user_id' => $user_id,
             'updated_at' =>  date("Y-m-d H:i:s"),
             'created_at' =>  date("Y-m-d H:i:s"),
         ]);
-        $payment = Payment::where('reference', $payment_reference)->first();
+        $payment = Payment::where('reference', $reference)->first();
+        error_log('  $subtotal  => '.$subtotal);
 
         return [
+            'user_id' => $user_id ,
+            'user_nid_type' => $user->nid_type  ,
+            'user_nid_number' => $user->nid_number ,
+            'user_email' => $user->email,
+            'user_name' => $user->name ,
+            'user_first_name' => $user->first_name ,
+            'user_last_name' => $user->last_name ,
 
-             'user_id' => $user_id ,
-             'payment_id' => $payment->id,
-             'coupon_id' => NULL,
+            'payment_id'  => $payment->id,
+            'payment_method' => 'WOMPI_SEED',
+            'payment_approved_at' => date("Y-m-d H:i:s"),
+            'payment_wompi_id' => '1112568-1660934151-61495',
 
-             'phone' =>  $this->faker->phoneNumber(),
-             'address' =>  $this->faker->address(),
-             'city' =>  $this->faker->city(),
-
-             'subtotal' => $subtotal,
-             'taxes' => $taxes ,
-             'discounts' => $discounts,
-             'points' => $points,
-             'total' => $total ,
-
-             'ordered_at' => now(),
-             'shipped_at' => NULL,
-             'delivered_at' => NULL,
-
-             'products_json' => $products->toJson(),
-             'coupon_json' => '{}',
+            'coupon_id' => NULL,
+            'coupon_discount' => 0.0,
+            
+            'order_ref' => $reference,
+            'order_points' => $user->points,
+            'order_subtotal' => 0,
+            'order_taxes' => 0,
+            'order_total' => 0,
+            'order_products_json' => $products->toJson(),
+    
+            //Shipping Info
+            'shipping_status' => 's0_pending',
+            'shipping_guide_ref' => '#334323-2323',
+            'shipping_guide_company' => 'DEPRISA',
+            'shipping_ordered_at' => NULL,
+            'shipping_shipped_at' => NULL,
+            'shipping_delivered_at' => NULL,
+            'shipping_country' => $this->faker->country() ,
+            'shipping_department' => $this->faker->state(),
+            'shipping_city' => $this->faker->city() ,
+            'shipping_phone' =>  $this->faker->phoneNumber(),
+            'shipping_address' =>  $this->faker->address(),
 
             'updated_at' => now(),
             'created_at' => now(),

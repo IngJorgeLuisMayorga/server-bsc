@@ -15,7 +15,7 @@ class UsersSeeder extends Seeder
     public function run()
     {
         error_log('[SEEDING] ... Start ');
-            User::factory()->count(20)->create();
+            User::factory()->count(10)->create();
         error_log('[SEEDING] [USERS] -> DONE ');
     }
 }
