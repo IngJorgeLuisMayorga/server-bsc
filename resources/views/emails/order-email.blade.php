@@ -128,7 +128,25 @@ $HOST = 'http://ec2-3-131-94-227.us-east-2.compute.amazonaws.com/server-bsc/publ
        <br>
     </td>
     <td  style="width:50%"> </td>
-  </tr>
+</tr>
+<tr style="width:100%;">
+    <td colspan="1" style="width:100%; text-align: left; vertical-align: top;">
+        <h1 style=" text-align: left; font-weight: 300; font-size:16px;">Puntos acumulados</h1>
+            @if ($status === 's1_ordered')
+             <h1 style="    width: fit-content; text-align: left; font-size:16px;background-color:#F7C0CD; font-weight:900; border-bottom: 1px dotted black;">313 Bubble Points</h1>
+            @elseif ($status === 's2_shipped')
+             <h1 style="    width: fit-content; text-align: left; font-size:16px;background-color:#FFF6C2; font-weight:900; border-bottom: 1px dotted black;">313 Bubble Points</h1>
+            @elseif ($status === 's3_delivered')
+             <h1 style="    width: fit-content; text-align: left; font-size:16px;background-color:#C1E9F4; font-weight:900;">313 Bubble Points</h1>
+            @else
+            @endif
+    </td>
+    <td colspan="2">
+        <br>
+        <br>
+       <img src="{{ $HOST.'/images/emails/CAJAROSADACORREO.jpg' }}">
+    </td>
+</tr>
 @stop
 
 
