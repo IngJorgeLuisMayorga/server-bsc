@@ -121,9 +121,9 @@
                                 Todos los derechos reservados.</h1>
                             <table>
                                 <tr>
-                                    <td><img src="{{ $HOST.'/images/emails/FACEBOOK1CORREO.jpg' }}" alt=""></td>
-                                    <td><img src="{{ $HOST.'/images/emails/INSTAGRAM1CORREO.jpg' }}" alt=""></td>
-                                    <td><img src="{{ $HOST.'/images/emails/TIKTOK1CORREOO.jpg' }}" alt=""></td>
+                                    <td><img style="width: 35px;" src="{{ $HOST.'/images/emails/FACEBOOK1CORREO.png' }}" alt=""></td>
+                                    <td><img style="width: 35px;" src="{{ $HOST.'/images/emails/INSTAGRAM1CORREO.png' }}" alt=""></td>
+                                    <td><img style="width: 35px;" src="{{ $HOST.'/images/emails/TIKTOK1CORREOO.png' }}" alt=""></td>
                                 </tr>
                             </table>
                         </td>
