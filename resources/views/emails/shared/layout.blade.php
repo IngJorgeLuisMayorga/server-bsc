@@ -36,7 +36,7 @@
                     @include('emails.shared.header')
 
                     <tr>
-                        <td style="padding: 40px 20px 30px 40px; border: 5px solid #333333;">
+                        <td style="padding: 40px 20px 30px 20px; border: 5px solid #333333;">
                             <table role="presentation"
                                 style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
 
@@ -101,11 +101,9 @@
         <!-- ------------------------------------------ 
             Email:: Footer
         ------------------------------------------ -->
-        <tr  style="margin: 0 auto;
-        display: block;
-        width: 605px;">
-            <td >
-                <table role="presentation"
+        <tr>
+            <td align="center" style="padding:0;">
+                <table
                     style="
                     width:100%; border-collapse:collapse;
                     border:0; border-spacing:0;
@@ -117,13 +115,25 @@
                             
                         </td>
                         <td style="padding: 20px; width:50%;padding-left:0px;" align="right">
-                            <h1>© 2022 BSC | <strong>Bubbles Skin Care</strong>
+                            <h1 style="color: white">© 2022 BSC | <strong>Bubbles Skin Care</strong>
                                 Todos los derechos reservados.</h1>
                             <table>
                                 <tr>
-                                    <td><img style="width: 35px;" src="{{ $HOST.'/images/emails/FACEBOOK1CORREO.png' }}" alt=""></td>
-                                    <td><img style="width: 35px;" src="{{ $HOST.'/images/emails/INSTAGRAM1CORREO.png' }}" alt=""></td>
-                                    <td><img style="width: 35px;" src="{{ $HOST.'/images/emails/TIKTOK1CORREOO.png' }}" alt=""></td>
+                                    <td style="padding-right: 10px; border-right: 1px dotted white; padding-left: 10px">
+                                        <a href="">
+                                            <img style="width: 35px;" width="35px" src="{{ $HOST.'/images/emails/FACEBOOK1CORREO.png' }}" alt="">
+                                        </a>
+                                    </td>
+                                    <td style="padding-right: 10px; border-right: 1px dotted white; padding-left: 10px">
+                                        <a href="">
+                                            <img style="width: 35px;" width="35px" src="{{ $HOST.'/images/emails/INSTAGRAM1CORREO.png' }}" alt="">
+                                        </a>
+                                    </td>
+                                    <td style="padding-right: 10px; border-right: 0px dotted white; padding-left: 10px">
+                                        <a href="">
+                                            <img style="width: 35px;" width="35px" src="{{ $HOST.'/images/emails/TIKTOK1CORREO.png' }}" alt="">
+                                        </a>
+                                    </td>
                                 </tr>
                             </table>
                         </td>

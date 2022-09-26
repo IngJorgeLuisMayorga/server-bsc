@@ -202,14 +202,17 @@ class OrderController extends Controller
         //return json_encode($order->user_id);
     }
     public function send_email_order($id, $status){
-
         $order = Order::where('id' , '=' , $id)->first();
+        $order->user_id = 11;
+        $order->save();
+
         $user = User::where('id' , '=' , $order->user_id)->first();  
         $coupon = Cupon::where('id' , '=' , $order->coupon_id)->first();
         $productsIds = DB::table('order_products')->where('order_id', '=', $order->id)->pluck('product_id')->toArray();
         $products = Product::whereIn('id', $productsIds)->get();
-        $email = $order->user_email;
-        Mail::to($email)->send(new OrderEmail($order, $user, $products, $status ));
+        //$email = $order->user_email;
+        $email = 'jl.mayorga236@gmail.com';
+        Mail::to($email)->send(new OrderEmail($order, $user, $products,  $status ));
         return json_encode($products);
     }
 }
