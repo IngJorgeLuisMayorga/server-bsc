@@ -206,7 +206,7 @@ $HOST = 'http://ec2-3-131-94-227.us-east-2.compute.amazonaws.com/server-bsc/publ
                     redimibles 100% en productos de K-beauty, disfruta tu(s) producto(s)
                     y esperamos verte de nuevo <strong>
                         #BubbleLover 
-                    </strong>
+                    </strong> <img src="{{ $HOST.'/images/emails/3CORAZONES.png' }}" alt="">
                 </h2>
             </div>
             <br>
