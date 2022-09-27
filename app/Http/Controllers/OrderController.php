@@ -134,50 +134,67 @@ class OrderController extends Controller
     public function pdf($id){
 
         $order = Order::where('id' , '=' , $id)->first();
+        $order->user_id = 11;
+        $order->save();
+
         $user = User::where('id' , '=' , $order->user_id)->first();
         $payment = Payment::where('id' , '=' , $order->payment_id)->first();
         $coupon = Cupon::where('id' , '=' , $order->coupon_id)->first();
 
-        $products = Product::hydrate((array)$order->products_json);
-        $collection = json_decode($order->products_json, true);
+        $productsIds = DB::table('order_products')->where('order_id', '=', $order->id)->pluck('product_id')->toArray();
+        $products = Product::whereIn('id', $productsIds)->get();
+
+        Carbon::setLocale('es');
+        $fecha = Carbon::parse($order->updated_at);
+        $fecha->diffForHumans(); //esto se mostrará en español
+        $fecha->format("F"); // Inglés.
 
         // Change the line below to your timezone!
         date_default_timezone_set('America/Lima');
         $date = date('m_d_Y_h_i_s', time());
 
-        $order = Order::where('id' , '=' , $id)->first();
-        view()->share('invoice', $order);
+        view()->share('order', $order);
         view()->share('user', $user);
         view()->share('payment', $payment);
         view()->share('coupon', $coupon);
-        view()->share('products', $collection);
+        view()->share('products', $products);
+        view()->share('fecha', $fecha);
 
         $pdf = PDF::loadView('PDFs.order_pdf', [
-            'invoice' => $order, 
+            'order' => $order, 
             'user' => $user,
             'payment' => $payment,
             'coupon' => $coupon,
-            'products' => $collection
+            'products' => $products,
+            'fecha' => $fecha,
         ]);
         return $pdf->download('BSC_Order_'.$date.'.pdf');
     }
     public function preview_pdf($id){
 
         $order = Order::where('id' , '=' , $id)->first();
+        $order->user_id = 11;
+        $order->save();
+
         $user = User::where('id' , '=' , $order->user_id)->first();
         $payment = Payment::where('id' , '=' , $order->payment_id)->first();
         $coupon = Cupon::where('id' , '=' , $order->coupon_id)->first();
 
-        $products = Product::hydrate((array)$order->products_json);
-        $collection = json_decode($order->products_json, true);
-        //$products = $products->flatten();
+        $productsIds = DB::table('order_products')->where('order_id', '=', $order->id)->pluck('product_id')->toArray();
+        $products = Product::whereIn('id', $productsIds)->get();
 
+        Carbon::setLocale('es');
+        $fecha = Carbon::parse($order->updated_at);
+        $fecha->diffForHumans(); //esto se mostrará en español
+        $fecha->format("F"); // Inglés.
+    
         return view('PDFs.order_pdf', [
-            'invoice' => $order, 
+            'order' => $order, 
             'user' => $user,
             'payment' => $payment,
             'coupon' => $coupon,
-            'products' => $collection
+            'products' => $products,
+            'fecha' => $fecha
         ]);
 
     } 

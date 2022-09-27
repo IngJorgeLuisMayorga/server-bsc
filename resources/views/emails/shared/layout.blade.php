@@ -112,7 +112,7 @@
                     border-spacing:0;text-align:left;">
                     <tr>
                         <td style="padding: 20px;width:50%;padding-rigth:0px;" align="left">
-                            
+                            <img src="{{ $HOST.'/images/emails/LOGOBLANCO.png' }}" alt="">
                         </td>
                         <td style="padding: 20px; width:50%;padding-left:0px;" align="right">
                             <h1 style="color: white">© 2022 BSC | <strong>Bubbles Skin Care</strong>
