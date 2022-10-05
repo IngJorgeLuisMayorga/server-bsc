@@ -119,6 +119,11 @@ class OrderController extends Controller
         $coupon = Cupon::where('id' , '=' , $order->coupon_id)->first();
         $productsIds = DB::table('order_products')->where('order_id', '=', $order->id)->pluck('product_id')->toArray();
         $products = Product::whereIn('id', $productsIds)->get();
+
+        //Update User Points
+        $points = $order->order_points;
+        $user->points = $user->points + $points;
+        $user->save();
  
         //Send Email 
         $email = $order->user_email;

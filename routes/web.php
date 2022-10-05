@@ -26,6 +26,7 @@ Route::get('/', function () {return view('welcome');});
 Route::group(['middleware' => 'cors'], function(){
     Route::get('/users', [UserController::class, 'getAll']);
     Route::get('/users/{id}', [UserController::class, 'getById']);
+    Route::post('/users/by/email', [UserController::class, 'getByEmail']);
     Route::post('/users', [UserController::class, 'add']);
     Route::patch('/users/{id}', [UserController::class, 'update']);
     Route::delete('/users/{id}', [UserController::class, 'remove']);

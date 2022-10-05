@@ -29,6 +29,11 @@ class UserController extends Controller {
         $users = User::whereIn('id', explode(',', $ids))->get();
         return json_encode($users);
     }
+    public function getByEmail(Request $request) {
+        $email = $request->email;
+        $user = User::where('email' , '=' , $email)->first();
+        return json_encode($user);
+    }
     public function add(Request $request) {
         $user = new User;
         $data = $request->only($user->getFillable());
