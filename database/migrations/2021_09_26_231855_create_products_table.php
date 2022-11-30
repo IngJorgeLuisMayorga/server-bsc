@@ -37,6 +37,7 @@ class CreateProductsTable extends Migration
             $table->boolean('visible')->default(1);
             $table->boolean('isDuo')->default(0);
 
+            $table->text('brand', 300)->nullable();
 
 
         });
